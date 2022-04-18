@@ -10,7 +10,10 @@ public class HomeResource {
 
     @GetMapping("/")
     public String home() {
-        return ("This is home page.");
+        String s = HtmlTemplate.htmlStart() +
+                "This is home page." +
+                HtmlTemplate.htmlEnd();
+        return s;
     }
 
     @GetMapping("/user")

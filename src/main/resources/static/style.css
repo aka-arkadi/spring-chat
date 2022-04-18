@@ -1,0 +1,19 @@
+body {
+	color: #222;
+	font-family: "DejaVu", sans-serif;
+	margin: 0 auto;
+	padding: 0;
+    font-size: 16px;
+    background-color: #DDD;
+}
+.page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    min-height: calc(100vh - 20px);
+    background-color: #FFF;
+}
+a {
+    text-transform: uppercase;
+    margin: 0 10px;
+}

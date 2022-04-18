@@ -23,10 +23,10 @@ public class MessageController {
     public String allMessages() {
         String s = "";
         for (Message m : messageRepository.findAll()) {
-            s = s + "<p>" + m.getUserName() + ": " + m.getMessage() +
-                    " (" + m.getCreatedAt() + ") </p>";
+            s = s + "<p><strong>" + m.getUserName() + "</strong>: " + m.getMessage() +
+                    " (" + m.getCreatedAt() + ") <a href='/msg/" + m.getId() + "'>MSG</a></p>";
         }
-        return s;
+        return HtmlTemplate.htmlStart() + s + HtmlTemplate.htmlEnd();
     }
 
     @GetMapping("/msg/{id}")
@@ -41,22 +41,24 @@ public class MessageController {
         } else {
             s = "Message not found.";
         }
-        return s;
+        return HtmlTemplate.htmlStart() + s + HtmlTemplate.htmlEnd();
     }
 
     @GetMapping("/user/new-msg")
     public String newMsgHtml(){
-        return "<form method='POST' action='/user/save-msg'>" +
+        return HtmlTemplate.htmlStart() +
+                "<form method='POST' action='/user/save-msg'>" +
                 "<input name='msg' type='text'>" +
                 "<button type='submit'>Los</button>" +
-                "</form>";
+                "</form>" +
+                HtmlTemplate.htmlEnd();
     }
 
     @PostMapping("/user/save-msg")
     public String saveNewMsg(String msg) {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        String errorMsg = "";
         Message m = new Message(userName, msg);
+        String errorMsg = "<p> No errors. Message-Id before save in repository: "+m.getId()+" </p>";
         try {
             messageRepository.save(m);
         } catch (Exception e) {
@@ -65,8 +67,9 @@ public class MessageController {
                 "<p> created at: " + m.getCreatedAt() + "</p>";
         }
 
-        return "<p> Message save good? </p>" +
+        return HtmlTemplate.htmlStart() + "<p> Message save good? </p>" +
                 "<p>" + userName+ ": " + msg + " (" + m.getCreatedAt() +")</p>"
-                + errorMsg;
+                + errorMsg +
+                HtmlTemplate.htmlEnd();
     }
 }
