@@ -13,8 +13,6 @@ public class Message {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
 
-    @Column(name="user_id")
-    private int userId;
     @Column(name="user_name")
     private String userName;
     private String message;
@@ -25,7 +23,6 @@ public class Message {
 
     }
     public Message(String userName, String message) {
-        this.userId = 99;
         this.userName = userName;
         this.message = message;
         this.createdAt = LocalDateTime.now();
@@ -34,13 +31,6 @@ public class Message {
         return id;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
     public String getUserName() {
         return userName;

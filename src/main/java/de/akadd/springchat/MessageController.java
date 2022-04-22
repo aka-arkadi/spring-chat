@@ -63,7 +63,7 @@ public class MessageController {
             messageRepository.save(m);
         } catch (Exception e) {
             errorMsg = "<p> No, not working. </p>" +
-                "<p> id: " + m.getId() + ", user_id: " + m.getUserId() +
+                "<p> id: " + m.getId() + ", user_id: " + m.getUserName() +
                 "<p> created at: " + m.getCreatedAt() + "</p>";
         }
 
