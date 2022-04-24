@@ -28,7 +28,7 @@ public class HomeResource {
     }
 
     @GetMapping("/user")
-    public String user() {
+    public String user(HttpServletRequest r) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> oU = userRepository.findByUserName(auth.getName());
         String s = "";
@@ -40,7 +40,7 @@ public class HomeResource {
         } else {
             s = "<p> Strange, strange, strange. Impossible.</p>";
         }
-        return s;
+        return HtmlTemplate.start(r) + s + HtmlTemplate.htmlEnd();
     }
 
     @GetMapping("/user/bla")

@@ -36,6 +36,10 @@ public class MessageController {
     @GetMapping("/chat/page/{page}")
     public String getMessagePage(HttpServletRequest r, @PathVariable("page") int page) {
         String s = "";
+        s = s + "<p><form method='POST' action='/user/save-msg'>" +
+                "<input name='msg' type='text'>" +
+                "<button type='submit'>Say.</button>" +
+                "</form></p>";
         for (Message m : messageRepository.findAll(
                PageRequest.of(page, 10,
                     Sort.by(Sort.Direction.DESC, "id")))) {
@@ -66,12 +70,12 @@ public class MessageController {
         } else {
             s = "Message not found.";
         }
-        return HtmlTemplate.htmlStart() + s + HtmlTemplate.htmlEnd();
+        return HtmlTemplate.start(r) + s + HtmlTemplate.htmlEnd();
     }
 
     @GetMapping("/user/new-msg")
-    public String newMsgHtml(){
-        return HtmlTemplate.htmlStart() +
+    public String newMsgHtml(HttpServletRequest r){
+        return HtmlTemplate.start(r) +
                 "<form method='POST' action='/user/save-msg'>" +
                 "<input name='msg' type='text'>" +
                 "<button type='submit'>Los</button>" +
@@ -80,13 +84,13 @@ public class MessageController {
     }
 
     @PostMapping("/user/save-msg")
-    public String saveNewMsg(String msg) {
+    public String saveNewMsg(HttpServletRequest r, String msg) {
         if (msg.equals("")) {
             return "<p> Yeah, no null messages please.</p>";
         }
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         Message m = new Message(userName, msg);
-        String errorMsg = "<p> No errors. Message-Id before save in repository: "+m.getId()+" </p>";
+        String errorMsg = "<p> Message saved.</p>";
         try {
             messageRepository.save(m);
         } catch (Exception e) {
@@ -95,8 +99,8 @@ public class MessageController {
                 "<p> created at: " + m.getCreatedAt() + "</p>";
         }
 
-        return HtmlTemplate.htmlStart() + "<p> Message save good? </p>" +
-                "<p>" + userName+ ": " + msg + " (" + m.getCreatedAt() +")</p>"
+        return HtmlTemplate.start(r) + "<p>" + userName + ": " + msg +
+                " (" + m.getCreatedAt() + ")</p>"
                 + errorMsg +
                 HtmlTemplate.htmlEnd();
     }
@@ -133,6 +137,6 @@ public class MessageController {
         } else {
             s = "<p> Error. Id not found. Id: " + id + "</p>";
         }
-        return HtmlTemplate.htmlStart() + s + HtmlTemplate.htmlEnd();
+        return HtmlTemplate.start(r) + s + HtmlTemplate.htmlEnd();
     }
 }

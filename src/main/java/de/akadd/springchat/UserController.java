@@ -21,26 +21,29 @@ public class UserController {
     MessageRepository messageRepository;
 
     @GetMapping("/register")
-    public String registerForm() {
+    public String registerForm(HttpServletRequest r) {
         String s = "<form method='POST' action='/register-user'>" +
                 "<p>username : <input type='text' name='username'></p>" +
                 "<p>password : <input type='text' name='password'></p>" +
                 "<p>registercode : <input type='text' name='registercode'></p>" +
                 "<button type='submit'>REGISTER</button>" +
                 "</form>";
-        return HtmlTemplate.htmlStart() + s + HtmlTemplate.htmlEnd();
+        return HtmlTemplate.start(r) + s + HtmlTemplate.htmlEnd();
     }
     @PostMapping("/register-user")
     public String registerUser(String username, String password, String registercode) {
         String s = "";
-        //TODO check for forbidden names - 'BOT', 'ADMIN', already used username
         if (registercode.equals("code1234")) {
-            User u = new User(username, password);
-            try {
-                userRepository.save(u);
-                s = "<p> Registration completed. </p>";
-            } catch (Exception e) {
-                s = "<p> Error while saving in user repository. No registration. </p>";
+            if ( userRepository.findByUserName(username).isPresent() || username.equals("BOT") || username.equals("ADMIN")) {
+                s = "<p> Username invalid. No registration. </p>";
+            } else {
+                User u = new User(username, password);
+                try {
+                    userRepository.save(u);
+                    s = "<p> Registration completed. </p>";
+                } catch (Exception e) {
+                    s = "<p> Error while saving in user repository. No registration. </p>";
+                }
             }
         } else {
             s = "<p> Register code wrong. No registration. </p>";

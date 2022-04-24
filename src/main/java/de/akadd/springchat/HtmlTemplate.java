@@ -20,12 +20,9 @@ public class HtmlTemplate {
                 "<body>" +
                 "<div class='page'>" +
                 "<a href='/'>home</a>" +
-                "<a href='/msgs'>msgs</a>" +
                 "<a href='/login'>login</a>" +
                 "<a href='/logout'>logout</a>" +
-                "<a href='/user'>user</a>" +
-                "<a href='/user/new-msg'>user-new-msg</a>" +
-                "<a href='/admin'>admin</a>" +
+                "<a href='/register'>register</a>" +
                 "<hr>";
         return s;
     }
@@ -40,7 +37,7 @@ public class HtmlTemplate {
                 "<head>" +
                 "<meta charset='utf-8'>" +
                 "<meta name='viewport' content='width=device-width, initial-width=1.0'>" +
-                "<title>Quick Test</title>" +
+                "<title>Spring Chat</title>" +
                 "<link rel='stylesheet' href='/style.css'>" +
                 "</head>" +
                 "<body>" +
@@ -50,7 +47,7 @@ public class HtmlTemplate {
                 "<a href='/register'>register</a>";
         if (request.isUserInRole("USER")) {
             s = s + "<a href='/logout'>logout</a>" +
-                    "<a href='/msgs'>msgs</a>" +
+                    "<a href='/chat/page/0'>chat</a>" +
                     "<a href='/user'>user</a>" +
                     "<a href='/user/new-msg'>new-msg</a>";
         }

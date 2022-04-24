@@ -34,10 +34,6 @@ localhost:8080
 * use views or resources instead of hardcoding html
 * messages table: foreign key of user id, instead of unreferenced user name
 * messages: make date look nice
-* messages: replace url 'msgs' with 'chat/page/0'
-* messages: add user authentication for msgs/chat
-* user register: check for forbidden names
-* html template: replace all mapping functions 'htmlStart()' -> 'start(request)' 
 * check csrf security issue (now: disabled in security configuration)
 * change password encoder (blank -> bcrypt)
 
@@ -50,3 +46,7 @@ localhost:8080
 * user: message delete
 * include request object and authentication in url-mapping functions
 * chat: page functionality for messages
+* messages: add user authentication for msgs/chat
+* messages: replace url 'msgs' with 'chat/page/0'
+* html template: replace all mapping functions 'htmlStart()' -> 'start(request)'
+* user register: check for forbidden names
